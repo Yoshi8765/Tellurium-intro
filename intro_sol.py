@@ -137,8 +137,12 @@ plt.xlabel("Protein value at Steady-state")
 #### Assume boundary species are set to 10 counts.
 #### Assume initial values of floating species are at 0.
 
+# Models 1 + 2 : https://i.imgur.com/KpeDxJe.jpg
+# Model 3 : https://i.imgur.com/kWZZ3PY.jpg
+
+
 # Make a model of the first linear pathway
-# https://uwigem.zulipchat.com/user_uploads/2720/SzkuyF_kTaqq4FNetBtUUz2v/pasted_image.png
+
 r = te.loada("""
     J0: $X0 -> S1 ; v_1 * X0    #you can put a $ sign before a species to set it to a boundary species (concentration doesn't change)
     J1: S1 -> S2 ; v_2 * S1
@@ -168,9 +172,10 @@ r.plot()
 r.getSteadyStateValues()
 
 #%% 
-a = te.loada("""
+
 # Make a model of the second pathway with negative feedback.
-# https://uwigem.zulipchat.com/user_uploads/2720/SzkuyF_kTaqq4FNetBtUUz2v/pasted_image.png
+
+a = te.loada("""
     J0: $X0 -> S1 ; v_1 * X0 * (K/(K+S3))
     J1: S1 -> S2 ; v_2 * S1
     J2: S2 -> S3 ; v_3 * S2 
@@ -197,10 +202,9 @@ a.plot()
     
 #%% 
 
-b = te.loada("""
 # Make a model of this third complex pathway.
-# https://uwigem.zulipchat.com/user_uploads/2720/396rJGYDRJRoTiciWWQ7O-_V/pasted_image.png
 
+b = te.loada("""
     J0: -> S1 ; v1
     J1: S1 -> S2 ; v2*S1
     J2: S2 -> ; v3*S2
