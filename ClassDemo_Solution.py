@@ -98,7 +98,7 @@ for i in d_m:
         index += 1
     T_r[count] = t_r # Store the response time
     count += 1
-    print(count)
+    print("d_m value:" + str(count))
 
 #%% Plots
 P_ss2 = r.a_m*r.a_p/r.d_p/d_m

@@ -50,6 +50,7 @@ print ""
 # determination of behavior based on the real and imaginary parts of eigen values
 # a string is initialized with the behavior which is used for stating behavior in
 # console and plot titles
+behavior = str()
 if eigen[0].imag == 0 or eigen[1].imag == 0:
     if eigen[0].real > 0 and eigen[1].real > 0:
         behavior = "Unstable Behavior"        
@@ -74,12 +75,12 @@ else:
 
 # plotting Argan plot and making it look good
 plt.scatter(eigen.real,eigen.imag)
-plt.show()
 plt.xlabel('Real Part')
 plt.ylabel('Imaginary Part')
 plt.legend()
 plt.title('Argand Plot - ' + behavior)
 plt.grid(True, which='both')
+plt.show()
 #creating a subplot for time course plot and linear phase portrait
 f,ax = plt.subplots(1,2)
 # plotting time course plot
