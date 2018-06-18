@@ -90,7 +90,7 @@ for i in d_m:
         # Iterating parameters
         "d_m = " + str(i) + ";"
     )
-    result = r.simulate(0,200,1000)
+    result = r.simulate(0,75,1000)
     
     # Find the steady-state value
     P_ss[count] = result[-1,2]
@@ -138,16 +138,28 @@ plt.xlabel("Protein value at Steady-state")
 # Model 1
 r = te.loada("""
 # Make a model of the first linear pathway
-
-    #J0: $X0 -> S1 ; v_1 * X0    #you can put a $ sign before a species to set it to a boundary species (concentration doesn't change)
-    
-    
-    
-    #J__: S4 -> $X1 ;  v_5*S4 
+# you can put a $ sign before a species to set it to a boundary species (concentration doesn't change)
+    J0: $X0 -> S1 ; v_1*X0    
+    J1: S1 -> S2 ; v_2*S1
+    J2: S2 -> S3 ; v_3*S2
+    J3: S3 -> S4 ; v_4*S3
+    J4: S4 -> $X5 ; v_5*S4 
     
     # Parameters
+    v_1 = 1
+    v_2 = 1
+    v_3 = 1
+    v_4 = 1
+    v_5 = 1
+    
     
     # Initial values
+    X0 = 10
+    X5 = 10
+    S1 = 0
+    S2 = 0
+    S3 = 0
+    S4 = 0
     
 """
 )
@@ -161,11 +173,25 @@ r.plot()
 a = te.loada("""
 # Make a model of the second pathway with negative feedback.
 
-    #J0: $X0 -> S1 ; v_1 * X0 * (K/(K+S3))
-    
+    J0: $X0 -> S1 ; v_1 * X0 * (K/(K+S3))
+    J1: S1 -> S2 ; v_2*S1
+    J2: S2 -> S3 ; v_3*S2
+    J3: S3 -> $X1 ; v_4*S3
+        
     # Parameters
     
+    v_1 = 1
+    v_2 = 1
+    v_3 = 1
+    v_4 = 1
+    K = 10
+    
     # Initial values
+    X0 = 10
+    X1 = 10
+    S1 = 0
+    S2 = 0
+    S3 = 0
     
 """
 )
@@ -179,11 +205,28 @@ a.plot()
 b = te.loada("""
 # Make a model of this third complex pathway.
 
-    #J0:
+    J0: -> S1 ; v_1
+    J1: S1 -> S2 ; v_2*S1
+    J2: S2 -> ; v_3*S2
+    J3: S3 -> S1 ; v_4*S3
+    J4: S3 -> S2 ; v_5*S3
+    J5: -> S3 ; v_6
     
     # Parameters
     
+    v_1 = 1 
+    v_2 = 1
+    v_3 = 1
+    v_4 = 1
+    v_5 = 1
+    v_6 = 1
+    
     # Initial values
+    
+    S1 = 0
+    S2 = 0
+    S3 = 0
+
     
 """
 )
@@ -193,10 +236,10 @@ b.plot()
 
 #%% Use Libstructural to analyze model b
 
-#import structural as st
-#ls = st.LibStructural()
-#ls.loadSBMLFromString(b.getSBML())
-#print(ls.getSummary())
-#print(ls.getTestDetails())
-#print ls.getStoichiometryMatrix()
-#print ls.getElementaryModes()
+import structural as st
+ls = st.LibStructural()
+ls.loadSBMLFromString(b.getSBML())
+print(ls.getSummary())
+print(ls.getTestDetails())
+print ls.getStoichiometryMatrix()
+print ls.getElementaryModesInteger()

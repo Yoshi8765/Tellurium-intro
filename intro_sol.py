@@ -187,7 +187,7 @@ a = te.loada("""
     v_3 = 1
     v_4 = 1
     # Initial values
-    X0 = 5
+    X0 = 10
     X1 = 10
     S1 = 0
     S2 = 0
@@ -195,7 +195,6 @@ a = te.loada("""
 """
 )
 a.reset()
-a.draw()
 result = a.simulate(0,30,200)
 a.plot()
     
